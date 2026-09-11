@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARCO Clínica Dental</title>
+<meta name="description" content="Clínica dental de barrio en [ciudad]. Revisiones, ortodoncia invisible, blanqueamiento LED e implantes con cita en 48 horas y el mismo dentista en cada visita.">
+<meta property="og:title" content="ARCO Clínica Dental">
+<meta property="og:description" content="Clínica dental de barrio con cita en 48 horas: revisiones, ortodoncia invisible, blanqueamiento LED e implantes.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231b2430'/%3E%3Cpath d='M30 25 C30 15 70 15 70 25 C78 30 78 45 70 50 C68 65 66 85 58 85 C52 85 50 65 50 55 C50 65 48 85 42 85 C34 85 32 65 30 50 C22 45 22 30 30 25 Z' fill='none' stroke='%23dd6656' stroke-width='6'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --porcelain:#eef0ec;
+  --porcelain-2:#e3e6df;
+  --porcelain-3:#d7dbd2;
+  --ink:#1b2430;
+  --ink-2:#242f3d;
+  --ink-3:#2e3b4b;
+  --coral:#dd6656;
+  --coral-ink:#3a120b;
+  --teal:#4f7d76;
+  --teal-ink:#0e211d;
+  --graphite:#6b7480;
+  --line: rgba(27,36,48,0.14);
+  --shadow: rgba(27,36,48,0.22);
+  --font-display:'Unbounded', 'Arial Black', sans-serif;
+  --font-body:'Public Sans', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:'JetBrains Mono', 'SF Mono', 'Cascadia Code', monospace;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth; scroll-padding-top:76px;}
+body{
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(255,255,255,0.5), transparent 60%),
+    radial-gradient(90% 60% at 85% 20%, rgba(79,125,118,0.08), transparent 55%),
+    var(--porcelain);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+.texture{
+  position:fixed; inset:0; z-index:5; pointer-events:none;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(27,36,48,.06) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(90deg, rgba(27,36,48,.06) 0 1px, transparent 1px 34px);
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 40%, transparent 92%);
+}
+.watermark{position:absolute; z-index:0; pointer-events:none; opacity:.08;}
+.watermark svg{width:100%; height:100%; display:block;}
+h1,h2,h3{text-wrap:balance; margin:0; font-weight:600;}
+p{margin:0;}
+img,svg{max-width:100%;}
+a{color:inherit;}
+a:focus-visible,button:focus-visible{outline:2px solid var(--coral); outline-offset:3px;}
+.container{max-width:1180px; margin:0 auto; padding:0 clamp(20px,4vw,48px);}
+
+/* ---------- progress bar ---------- */
+.progress{position:fixed; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg,var(--coral),var(--teal)); transform:scaleX(0); transform-origin:left; z-index:200;}
+
+/* ---------- nav ---------- */
+.nav{position:fixed; top:0; left:0; width:100%; z-index:150; padding:16px 0; border-bottom:1px solid transparent; transition:background .3s ease,border-color .3s ease, box-shadow .3s ease;}
+.nav.is-scrolled{background:rgba(238,240,236,0.88); backdrop-filter:blur(8px); border-bottom-color:var(--line); box-shadow:0 12px 24px -20px var(--shadow);}
+.nav-inner{display:flex; align-items:center; justify-content:space-between; gap:24px;}
+.brand{display:flex; align-items:center; gap:9px; font-family:var(--font-display); font-size:1.25rem; letter-spacing:.02em; font-weight:700;}
+.brand svg{width:24px; height:24px; color:var(--coral);}
+.nav-links{display:flex; gap:26px; list-style:none; margin:0; padding:0; font-size:.92rem; font-weight:500;}
+.nav-links a{text-decoration:none; opacity:.8; position:relative; padding:4px 0;}
+.nav-links a:hover{opacity:1; color:var(--teal);}
+.nav-toggle{
+  display:none; width:38px; height:38px; padding:8px; margin:-8px;
+  background:none; border:none; color:var(--ink); cursor:pointer;
+}
+.nav-toggle svg{width:100%; height:100%;}
+@media (max-width:720px){
+  .nav-toggle{display:inline-flex; align-items:center; justify-content:center;}
+  .nav-links{
+    position:absolute; top:100%; left:0; right:0; z-index:149;
+    flex-direction:column; align-items:stretch; gap:2px;
+    background:var(--porcelain); border-bottom:1px solid var(--line);
+    padding:8px clamp(20px,4vw,48px) 18px;
+    box-shadow:0 20px 34px -22px var(--shadow);
+    max-height:0; overflow:hidden; opacity:0; pointer-events:none;
+    transition:max-height .3s ease, opacity .25s ease;
+  }
+  .nav-links.is-open{max-height:340px; opacity:1; pointer-events:auto;}
+  .nav-links a{display:block; padding:11px 0;}
+}
+
+/* ---------- icon sprite ---------- */
+.icon-sprite{position:absolute; width:0; height:0; overflow:hidden;}
+
+/* ---------- photo frame ---------- */
+.frame{
+  position:relative;
+  border-radius:3px;
+  background:linear-gradient(160deg, var(--porcelain-3), var(--porcelain-2));
+  border:1px solid var(--line);
+  box-shadow:
+    0 30px 60px -28px var(--shadow),
+    0 10px 18px -14px rgba(27,36,48,.18),
+    inset 0 1px 0 rgba(255,255,255,.5);
+  overflow:hidden;
+  min-height:280px;
+}
+.frame.has-photo{ padding:0; }
+.frame-img{ position:absolute; left:0; top:-15%; width:100%; height:130%; object-fit:cover; display:block; will-change:transform; }
+.mark{position:absolute; width:20px; height:20px; z-index:3; pointer-events:none;}
+.mark--tl{top:12px; left:12px; border-top:2px solid var(--porcelain); border-left:2px solid var(--porcelain);}
+.mark--tr{top:12px; right:12px; border-top:2px solid var(--porcelain); border-right:2px solid var(--porcelain);}
+.mark--bl{bottom:12px; left:12px; border-bottom:2px solid var(--porcelain); border-left:2px solid var(--porcelain);}
+.mark--br{bottom:12px; right:12px; border-bottom:2px solid var(--porcelain); border-right:2px solid var(--porcelain);}
+.frame-caption{
+  position:absolute; left:16px; bottom:16px; z-index:2; max-width:75%;
+  background:rgba(27,36,48,.86); color:var(--porcelain);
+  font-family:var(--font-mono); font-size:.78rem; letter-spacing:.01em; line-height:1.3;
+  padding:8px 12px; border-radius:2px;
+}
+.badge{
+  width:60px; height:60px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--tint,var(--coral)) 100%, white 35%), var(--tint,var(--coral)) 72%);
+  color:var(--tint-ink,var(--coral-ink));
+  box-shadow:
+    0 10px 20px -8px var(--shadow),
+    inset 0 -6px 9px rgba(0,0,0,.22),
+    inset 0 3px 4px rgba(255,255,255,.5);
+}
+.badge svg{width:30px; height:30px;}
+
+/* ---------- eyebrow / tag ---------- */
+.tag{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-mono); font-size:.85rem; letter-spacing:.01em;
+  background:var(--ink); color:var(--porcelain);
+  padding:9px 16px; border-radius:3px;
+  box-shadow:0 14px 26px -14px var(--shadow);
+}
+
+/* ---------- hero ---------- */
+.hero{position:relative; padding:132px 0 80px; overflow:hidden;}
+.hero-inner{position:relative; z-index:1; display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center;}
+.hero-title{font-family:var(--font-display); font-size:clamp(3.2rem,6.6vw,5.8rem); line-height:.96; letter-spacing:-.01em; color:var(--ink); font-weight:800;}
+.hero-title span{color:var(--coral);}
+.hero-sub{margin-top:22px; max-width:44ch; font-size:1.12rem; color:var(--graphite);}
+.hero-meta{display:flex; gap:28px; margin-top:32px; flex-wrap:wrap;}
+.hero-meta div{font-family:var(--font-mono); font-size:.78rem; color:var(--graphite); letter-spacing:.03em; text-transform:uppercase;}
+.hero-meta strong{display:block; font-family:var(--font-body); font-size:1.05rem; color:var(--ink); font-weight:700; margin-top:3px; text-transform:none;}
+.scroll-cue{display:inline-flex; align-items:center; gap:8px; margin-top:40px; font-family:var(--font-mono); font-size:.85rem; color:var(--teal); text-decoration:none; letter-spacing:.02em;}
+.scroll-cue svg{width:16px; height:16px; animation:bob 1.8s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+.hero-photo{aspect-ratio:4/5;}
+.hero-photo .frame-caption{font-size:.85rem;}
+
+@media (max-width:860px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-photo{aspect-ratio:16/10; order:-1;}
+}
+
+/* ---------- sections ---------- */
+.section{position:relative; padding:120px 0; overflow:hidden;}
+.section.alt{background:linear-gradient(180deg,transparent,rgba(27,36,48,0.05),transparent);}
+.section .container{position:relative; z-index:1;}
+.section--teal::before,
+.section--coral::before{
+  content:""; position:absolute; inset:-10%; z-index:0; pointer-events:none;
+}
+.section--teal::before{background:radial-gradient(60% 55% at 84% 18%, rgba(79,125,118,.13), transparent 70%);}
+.section--coral::before{background:radial-gradient(60% 55% at 10% 85%, rgba(221,102,86,.12), transparent 70%);}
+
+.eyebrow{
+  display:inline-block; font-family:var(--font-mono); font-size:.78rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--teal); margin-bottom:14px;
+}
+.eyebrow::before{content:"— "; color:var(--graphite);}
+h2{font-family:var(--font-display); font-size:clamp(2rem,3.4vw,3rem); letter-spacing:-.01em; font-weight:700;}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;}
+.two-col.reverse .col-image{order:2;}
+.col-text p{margin-top:22px; max-width:52ch; color:var(--graphite); font-size:1.03rem;}
+.col-text .tag{margin-top:26px;}
+@media (max-width:860px){
+  .two-col, .two-col.reverse{grid-template-columns:1fr;}
+  .two-col.reverse .col-image{order:0;}
+}
+.col-image .frame{aspect-ratio:5/4;}
+
+/* ---------- gallery (servicios) ---------- */
+.gallery{display:grid; grid-template-columns:repeat(4,1fr); gap:22px; margin-top:52px;}
+@media (max-width:960px){ .gallery{grid-template-columns:1fr 1fr;} }
+@media (max-width:560px){ .gallery{grid-template-columns:1fr;} }
+.gallery-card{
+  background:linear-gradient(165deg, #f4f5f1, var(--porcelain-2) 75%);
+  border:1px solid var(--line); border-radius:6px;
+  padding:24px 20px 20px; display:flex; flex-direction:column; gap:12px;
+  box-shadow:
+    0 20px 38px -22px var(--shadow),
+    0 6px 12px -10px rgba(27,36,48,.14),
+    inset 0 1px 0 rgba(255,255,255,.6);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.gallery-card:hover{ transform:translateY(-4px); }
+.gallery-card h3{font-family:var(--font-body); font-weight:700; font-size:1.08rem; margin-top:4px;}
+.gallery-card p{font-size:.9rem; color:var(--graphite); margin-top:2px;}
+.gallery-card .row{display:flex; justify-content:space-between; align-items:baseline; margin-top:auto; padding-top:14px; border-top:1px dashed var(--line); font-family:var(--font-mono); font-variant-numeric:tabular-nums;}
+.gallery-card .price{color:var(--coral); font-weight:600;}
+.gallery-card .duration{color:var(--graphite); font-size:.72rem;}
+
+/* ---------- showcase (pinned) ---------- */
+.showcase{position:relative; height:100vh; min-height:560px; overflow:hidden;}
+.showcase-stage{position:absolute; inset:0;}
+.showcase-image{
+  position:absolute; inset:0; width:100%; height:100%;
+  box-shadow:inset 0 0 160px rgba(27,36,48,.35);
+}
+.showcase-overlay{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+  padding:0 clamp(20px,8vw,120px);
+  background:linear-gradient(90deg, rgba(238,240,236,.94) 0%, rgba(238,240,236,.6) 45%, rgba(238,240,236,0) 80%);
+}
+.showcase-overlay h2{max-width:10ch;}
+.showcase-overlay p{margin-top:18px; max-width:38ch; color:var(--graphite); font-size:1.05rem;}
+
+/* ---------- testimonios (fichas) ---------- */
+.files{display:grid; grid-template-columns:repeat(3,1fr); gap:30px; margin-top:52px;}
+@media (max-width:860px){ .files{grid-template-columns:1fr;} }
+.file{
+  position:relative;
+  background:linear-gradient(165deg, #f6f7f3, var(--porcelain-2) 80%);
+  border:1px solid var(--line); border-radius:4px;
+  padding:30px 26px 24px;
+  box-shadow:0 18px 34px -20px var(--shadow), inset 0 1px 0 rgba(255,255,255,.6);
+  font-size:1.02rem; line-height:1.5;
+}
+.file::before{
+  content:""; position:absolute; top:-1px; left:24px; width:46px; height:10px;
+  background:var(--porcelain); border:1px solid var(--line); border-top:none; border-radius:0 0 5px 5px;
+}
+.file-stamp{
+  position:absolute; top:20px; right:20px; width:34px; height:34px; border-radius:50%;
+  background:var(--teal); color:var(--teal-ink); display:flex; align-items:center; justify-content:center;
+}
+.file-stamp svg{width:18px; height:18px;}
+.file .who{display:block; margin-top:18px; font-family:var(--font-mono); font-size:.74rem; letter-spacing:.03em; color:var(--graphite); text-transform:uppercase;}
+
+/* ---------- visitanos ---------- */
+.hours{list-style:none; margin:26px 0 0; padding:0; font-family:var(--font-mono); font-size:.98rem; max-width:40ch;}
+.hours li{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px dashed var(--line); font-variant-numeric:tabular-nums;}
+.hours li span:first-child{color:var(--graphite);}
+.address{margin-top:24px; font-size:1.02rem;}
+.address strong{display:block; font-family:var(--font-display); font-size:1.2rem; letter-spacing:-.005em; color:var(--teal); font-weight:700;}
+.btn{
+  display:inline-flex; align-items:center; gap:10px; margin-top:30px;
+  background:linear-gradient(165deg, color-mix(in srgb, var(--coral) 100%, white 20%), var(--coral) 65%);
+  color:var(--coral-ink); font-weight:700; font-size:.95rem;
+  padding:14px 26px; border-radius:5px; text-decoration:none;
+  box-shadow:0 16px 28px -14px var(--shadow), inset 0 -8px 12px -8px rgba(0,0,0,.2), inset 0 2px 3px rgba(255,255,255,.5);
+  transition:transform .2s ease;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn svg{width:18px; height:18px;}
+.btn--ghost{
+  background:transparent; color:var(--teal); box-shadow:none;
+  border:1px solid var(--teal); padding:11px 20px; font-size:.88rem; margin-top:0;
+}
+.btn--ghost:hover{transform:translateY(-2px); background:rgba(79,125,118,.08);}
+.contact-row{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px;}
+
+/* ---------- cita (booking form) ---------- */
+.booking-intro{max-width:60ch; color:var(--graphite); margin-top:14px; font-size:1.03rem;}
+.booking-form{display:grid; grid-template-columns:1fr 1fr; gap:20px 24px; margin-top:44px; max-width:780px;}
+.field{display:flex; flex-direction:column; gap:8px;}
+.field--wide{grid-column:1 / -1;}
+.field label{font-family:var(--font-mono); font-size:.74rem; letter-spacing:.04em; color:var(--graphite); text-transform:uppercase;}
+.field input, .field select, .field textarea{
+  font-family:var(--font-body); font-size:1rem; color:var(--ink);
+  background:#fff; border:1px solid var(--line); border-radius:5px;
+  padding:12px 14px; outline-offset:2px;
+}
+.field textarea{resize:vertical;}
+.consent{
+  grid-column:1 / -1; display:flex; align-items:flex-start; gap:10px;
+  font-size:.9rem; color:var(--graphite);
+}
+.consent input{margin-top:4px;}
+.form-actions{grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-top:4px;}
+.form-actions .btn{margin-top:0;}
+.form-note{grid-column:1 / -1; font-family:var(--font-mono); font-size:.85rem; color:var(--teal); min-height:1.3em;}
+@media (max-width:640px){ .booking-form{grid-template-columns:1fr;} }
+
+/* ---------- footer ---------- */
+.footer{border-top:1px solid var(--line); padding:56px 0 40px;}
+.footer-inner{display:flex; flex-direction:column; gap:16px; align-items:flex-start;}
+.footer-note{
+  max-width:60ch; font-family:var(--font-mono); font-size:.82rem; color:var(--graphite);
+  background:var(--porcelain-2); border:1px solid var(--line); border-radius:8px; padding:14px 18px;
+}
+.footer-credit{font-size:.82rem; color:var(--graphite);}
+.footer-links{display:flex; gap:18px; font-size:.85rem;}
+.footer-links a{color:var(--teal); text-decoration:underline; text-underline-offset:2px;}
+.consent a{color:var(--teal); text-decoration:underline;}
+
+/* ---------- legal modals ---------- */
+.legal-modal{
+  border:none; border-radius:10px; padding:0; max-width:640px; width:calc(100% - 40px);
+  max-height:80vh; color:var(--ink); background:var(--porcelain);
+  box-shadow:0 40px 80px -30px rgba(27,36,48,.5);
+}
+.legal-modal::backdrop{background:rgba(27,36,48,.55);}
+.legal-modal-inner{padding:32px 30px 30px; overflow-y:auto; max-height:80vh;}
+.legal-modal h3{font-family:var(--font-display); font-size:1.5rem; margin-bottom:16px;}
+.legal-modal p{color:var(--graphite); margin-bottom:12px; line-height:1.6;}
+.legal-modal ul{margin:0 0 14px; padding-left:20px; color:var(--graphite); line-height:1.7;}
+.legal-modal li{margin-bottom:4px;}
+.legal-modal strong{color:var(--ink);}
+.legal-flag{
+  background:rgba(221,102,86,.12); border:1px solid rgba(221,102,86,.35); color:var(--coral-ink);
+  border-radius:6px; padding:10px 14px; font-family:var(--font-mono); font-size:.78rem; line-height:1.5;
+}
+.modal-close{
+  position:absolute; top:14px; right:16px; width:32px; height:32px; border-radius:50%;
+  border:1px solid var(--line); background:var(--porcelain-2); color:var(--ink);
+  font-size:1.3rem; line-height:1; cursor:pointer;
+}
+.legal-modal-inner{position:relative;}
+
+/* ---------- booking fallback ---------- */
+.form-note:not(:empty){margin-top:6px;}
+.form-note textarea{
+  width:100%; margin-top:10px; font-family:var(--font-mono); font-size:.85rem;
+  background:#fff; border:1px solid var(--line); border-radius:5px; padding:10px 12px; color:var(--graphite);
+}
+.form-note .copy-btn{margin-top:10px;}
+
+@media (prefers-reduced-motion:reduce){
+  .scroll-cue svg{animation:none;}
+}
+</style>
+</head>
+<body>
+
+
+<svg class="icon-sprite" aria-hidden="true">
+  <defs>
+    <symbol id="i-arch" viewBox="0 0 100 100"><path d="M30 25 C30 15 70 15 70 25 C78 30 78 45 70 50 C68 65 66 85 58 85 C52 85 50 65 50 55 C50 65 48 85 42 85 C34 85 32 65 30 50 C22 45 22 30 30 25 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 100 100"><path d="M50 15 L80 28 V50 C80 70 65 85 50 90 C35 85 20 70 20 50 V28 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M36 50 L46 60 L66 38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 100 100"><rect x="18" y="24" width="64" height="58" rx="4" fill="none" stroke="currentColor" stroke-width="5"/><path d="M18 42 H82 M34 16 V30 M66 16 V30" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="60" r="6" fill="currentColor"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 100 100"><path d="M50 10 C52 33 55 45 50 50 C45 45 48 33 50 10 Z M50 90 C48 67 45 55 50 50 C55 55 52 67 50 90 Z M10 50 C33 48 45 45 50 50 C45 55 33 52 10 50 Z M90 50 C67 52 55 55 50 50 C55 45 67 48 90 50 Z" fill="currentColor"/></symbol>
+    <symbol id="i-aligner" viewBox="0 0 100 100"><path d="M15 62 C15 26 85 26 85 62" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="15" cy="62" r="5" fill="currentColor"/><circle cx="31" cy="35" r="5" fill="currentColor"/><circle cx="50" cy="27" r="5" fill="currentColor"/><circle cx="69" cy="35" r="5" fill="currentColor"/><circle cx="85" cy="62" r="5" fill="currentColor"/></symbol>
+    <symbol id="i-implant" viewBox="0 0 100 100"><path d="M50 10 V36" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M35 36 H65 L58 50 H42 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M41 50 L39 60 M48 50 L47 64 M56 50 L55 64 M63 50 L61 60" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M39 64 L43 90 H61 L65 64 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 100 100"><circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" stroke-width="6"/><path d="M50 30 V52 L66 62" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 100 100"><path d="M50 90 C50 90 78 60 78 40 A28 28 0 1 0 22 40 C22 60 50 90 50 90 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/><circle cx="50" cy="40" r="10" fill="none" stroke="currentColor" stroke-width="6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="5"/><path d="M32 52 L45 65 L70 36" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 100 100"><path d="M25 35 L50 65 L75 35" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 100 100"><path d="M28 18 L42 18 L48 34 L38 40 C42 52 48 58 60 62 L66 52 L82 58 L82 72 C82 78 76 84 70 82 C42 76 22 56 16 30 C14 24 20 18 28 18 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 100 100"><path d="M50 18 C30 18 16 32 16 50 C16 58 19 65 24 71 L20 84 L34 80 C39 83 44 84 50 84 C70 84 84 70 84 52 C84 32 70 18 50 18 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M35 46 C35 46 40 56 50 58 C58 60 62 50 62 50" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 100 100"><path d="M20 30 H80 M20 50 H80 M20 70 H80" stroke="currentColor" stroke-width="8" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<div class="texture" aria-hidden="true"></div>
+<div class="progress"></div>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <div class="brand"><svg><use href="#i-arch"/></svg>ARCO</div>
+    <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
+      <svg><use href="#i-menu"/></svg>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#consulta">La consulta</a></li>
+      <li><a href="#visitanos">Visítanos</a></li>
+      <li><a href="#cita">Pedir cita</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <section class="hero container">
+    <svg class="watermark" style="width:min(44vw,540px); height:min(44vw,540px); top:-10%; right:-8%; color:var(--teal);" data-parallax="-22" aria-hidden="true"><use href="#i-arch"/></svg>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="tag">Cita en menos de 48 horas</span>
+        <h1 class="hero-title" style="margin-top:24px;">ARCO<span>.</span></h1>
+        <p class="hero-sub">Clínica dental de barrio. Revisiones, ortodoncia e implantes con el mismo dentista en cada visita y un plan de tratamiento explicado antes de tocar una sola pieza.</p>
+        <div class="hero-meta">
+          <div>Desde<strong>2011</strong></div>
+          <div>Dentistas<strong>3 en plantilla</strong></div>
+          <div>Primera cita<strong>Diagnóstico sin coste</strong></div>
+        </div>
+        <a href="#servicios" class="scroll-cue">Ver servicios <svg><use href="#i-chevron"/></svg></a>
+      </div>
+      <div class="hero-photo frame has-photo" data-hero-photo>
+        <img class="frame-img" src="images/hero.jpg" alt="Sala de tratamiento con sillón dental y equipo moderno">
+        <span class="mark mark--tl"></span><span class="mark mark--tr"></span><span class="mark mark--bl"></span><span class="mark mark--br"></span>
+        <p class="frame-caption">Nuestra sala de tratamiento</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--teal" id="nosotros">
+    <svg class="watermark" style="width:min(36vw,440px); height:min(36vw,440px); top:8%; left:-9%; color:var(--teal);" data-parallax="18" aria-hidden="true"><use href="#i-shield"/></svg>
+    <div class="container two-col">
+      <div class="col-text">
+        <p class="eyebrow">Desde 2011</p>
+        <h2>Cerca de casa, con la precisión de un especialista</h2>
+        <p>Empezamos como una consulta de barrio con un solo sillón. Hoy seguimos citando a cada paciente con el mismo dentista siempre, y revisamos cada caso con escáner intraoral antes de tocar una sola pieza. Nada de diagnósticos genéricos: cada plan de tratamiento se piensa diente por diente.</p>
+        <span class="tag">Primera visita: diagnóstico completo, sin coste</span>
+      </div>
+      <div class="col-image">
+        <div class="frame has-photo" data-expand>
+          <img class="frame-img" src="images/historia.jpg" alt="Dentista sosteniendo un modelo de estudio dental">
+          <span class="mark mark--tl"></span><span class="mark mark--tr"></span><span class="mark mark--bl"></span><span class="mark mark--br"></span>
+          <p class="frame-caption">Estudio del caso antes de tratar</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt section--coral" id="servicios">
+    <svg class="watermark" style="width:min(38vw,460px); height:min(38vw,460px); bottom:-14%; right:-8%; color:var(--coral);" data-parallax="-16" aria-hidden="true"><use href="#i-aligner"/></svg>
+    <div class="container">
+      <p class="eyebrow">Nuestros tratamientos</p>
+      <h2>Servicios con precio claro desde el primer día</h2>
+      <div class="gallery">
+        <div class="gallery-card" data-reveal>
+          <div class="badge" style="--tint:var(--teal); --tint-ink:var(--teal-ink);"><svg><use href="#i-shield"/></svg></div>
+          <h3>Revisión y limpieza</h3>
+          <p>Revisión completa, radiografía y limpieza con ultrasonidos.</p>
+          <div class="row"><span class="price">45 €</span><span class="duration">30 min</span></div>
+        </div>
+        <div class="gallery-card" data-reveal>
+          <div class="badge" style="--tint:var(--coral); --tint-ink:var(--coral-ink);"><svg><use href="#i-aligner"/></svg></div>
+          <h3>Ortodoncia invisible</h3>
+          <p>Alineadores transparentes a medida, revisión mensual incluida.</p>
+          <div class="row"><span class="price">desde 2.400 €</span><span class="duration">≈12 meses</span></div>
+        </div>
+        <div class="gallery-card" data-reveal>
+          <div class="badge" style="--tint:#e8c34a; --tint-ink:#3a2a05;"><svg><use href="#i-spark"/></svg></div>
+          <h3>Blanqueamiento LED</h3>
+          <p>Blanqueamiento en consulta con luz LED, resultado en una sesión.</p>
+          <div class="row"><span class="price">180 €</span><span class="duration">60 min</span></div>
+        </div>
+        <div class="gallery-card" data-reveal>
+          <div class="badge" style="--tint:var(--ink); --tint-ink:var(--porcelain);"><svg><use href="#i-implant"/></svg></div>
+          <h3>Implantes dentales</h3>
+          <p>Implante de titanio y corona de porcelana, estudio 3D incluido.</p>
+          <div class="row"><span class="price">desde 950 €</span><span class="duration">2 sesiones</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="showcase" id="consulta">
+    <div class="showcase-stage">
+      <div class="showcase-image" data-showcase-image style="background-image:linear-gradient(195deg, rgba(238,240,236,.1) 30%, rgba(238,240,236,.55) 100%), url(images/showcase.jpg); background-size:cover; background-position:center;">
+      </div>
+      <div class="showcase-overlay" data-showcase-text>
+        <p class="eyebrow">Cada sala, lista al detalle</p>
+        <h2>La consulta por dentro</h2>
+        <p>Esterilizado, revisado y a punto antes de que llegues. Así es cada sillón, cada mañana.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--teal">
+    <svg class="watermark" style="width:min(32vw,400px); height:min(32vw,400px); top:6%; right:-8%; color:var(--teal);" data-parallax="20" aria-hidden="true"><use href="#i-check"/></svg>
+    <div class="container">
+      <p class="eyebrow">Lo que dicen nuestros pacientes</p>
+      <h2>Fichas de sonrisas satisfechas</h2>
+      <div class="files">
+        <div class="file" data-reveal>
+          <div class="file-stamp"><svg><use href="#i-check"/></svg></div>
+          "Por fin un dentista que me explica todo antes de tocarme nada."
+          <span class="who">Marta — paciente desde 2019</span>
+        </div>
+        <div class="file" data-reveal>
+          <div class="file-stamp"><svg><use href="#i-check"/></svg></div>
+          "Le tenía pánico al dentista y aquí se me pasó de verdad."
+          <span class="who">Ismael — ortodoncia en curso</span>
+        </div>
+        <div class="file" data-reveal>
+          <div class="file-stamp"><svg><use href="#i-check"/></svg></div>
+          "Me hicieron el implante en dos citas, sin dolor y sin sustos."
+          <span class="who">Covadonga — paciente desde 2022</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt section--coral" id="visitanos">
+    <svg class="watermark" style="width:min(34vw,420px); height:min(34vw,420px); bottom:-10%; left:-8%; color:var(--coral);" data-parallax="-18" aria-hidden="true"><use href="#i-pin"/></svg>
+    <div class="container two-col reverse">
+      <div class="col-image">
+        <div class="frame has-photo" data-expand>
+          <img class="frame-img" src="images/visitanos.jpg" alt="Paciente sonriendo satisfecha tras el tratamiento">
+          <span class="mark mark--tl"></span><span class="mark mark--tr"></span><span class="mark mark--bl"></span><span class="mark mark--br"></span>
+          <p class="frame-caption">Otra sonrisa, lista para enseñarse</p>
+        </div>
+      </div>
+      <div class="col-text">
+        <p class="eyebrow">Horario</p>
+        <h2>Pide tu cita</h2>
+        <ul class="hours">
+          <li><span>Lunes – Viernes</span><span>9:00–14:00 · 16:00–20:00</span></li>
+          <li><span>Sábado</span><span>9:30–13:30</span></li>
+          <li><span>Domingo</span><span>Cerrado</span></li>
+        </ul>
+        <div class="address">
+          <strong>Avenida del Arco, 24 · 1º B</strong>
+          Urgencias dentales el mismo día, con o sin cita previa.
+        </div>
+        <div class="contact-row">
+          <a href="tel:+34600000000" class="btn btn--ghost"><svg><use href="#i-phone"/></svg>Llamar</a>
+          <a href="https://wa.me/34600000000" target="_blank" rel="noopener" class="btn btn--ghost"><svg><use href="#i-chat"/></svg>WhatsApp</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Avenida+del+Arco+24" target="_blank" rel="noopener" class="btn btn--ghost"><svg><use href="#i-pin"/></svg>Cómo llegar</a>
+        </div>
+        <a href="#cita" class="btn"><svg><use href="#i-calendar"/></svg>Pedir cita</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cita">
+    <svg class="watermark" style="width:min(30vw,380px); height:min(30vw,380px); top:-8%; right:-6%; color:var(--teal);" data-parallax="14" aria-hidden="true"><use href="#i-calendar"/></svg>
+    <div class="container">
+      <p class="eyebrow">Reserva en línea</p>
+      <h2>Pide tu cita en menos de un minuto</h2>
+      <p class="booking-intro">Rellena el formulario y se abrirá tu correo con la solicitud lista para enviar — te confirmamos la hora en menos de 48 horas. Si lo prefieres, escríbenos directamente por WhatsApp.</p>
+      <form class="booking-form" id="booking-form" novalidate>
+        <div class="field">
+          <label for="f-name">Nombre y apellidos</label>
+          <input id="f-name" name="name" type="text" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="f-phone">Teléfono</label>
+          <input id="f-phone" name="phone" type="tel" required autocomplete="tel" pattern="[0-9+ ]{9,15}" placeholder="600 000 000">
+        </div>
+        <div class="field">
+          <label for="f-email">Email (opcional)</label>
+          <input id="f-email" name="email" type="email" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="f-service">Servicio</label>
+          <select id="f-service" name="service" required>
+            <option value="" disabled selected>Elige un tratamiento</option>
+            <option>Revisión y limpieza</option>
+            <option>Ortodoncia invisible</option>
+            <option>Blanqueamiento LED</option>
+            <option>Implantes dentales</option>
+            <option>No lo sé, quiero que me asesoren</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-date">Fecha preferida</label>
+          <input id="f-date" name="date" type="date">
+        </div>
+        <div class="field field--wide">
+          <label for="f-comment">Comentario (opcional)</label>
+          <textarea id="f-comment" name="comment" rows="3"></textarea>
+        </div>
+        <label class="consent">
+          <input type="checkbox" id="f-consent" name="consent" required>
+          <span>Acepto que ARCO Clínica Dental me contacte para confirmar la cita y he leído la <a href="#" data-open-modal="modal-privacidad">política de privacidad</a>.</span>
+        </label>
+        <div class="form-actions">
+          <button type="submit" class="btn"><svg><use href="#i-calendar"/></svg>Enviar solicitud</button>
+          <a href="https://wa.me/34600000000" target="_blank" rel="noopener" class="btn btn--ghost" id="whatsapp-fallback"><svg><use href="#i-chat"/></svg>O escríbenos por WhatsApp</a>
+        </div>
+        <div class="form-note" id="form-note" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="brand"><svg><use href="#i-arch"/></svg>ARCO</div>
+    <p class="footer-note">Página de demostración — plantilla de parallax construida con GSAP y ScrollTrigger. El formulario de cita, el menú móvil, el mapa y los botones de llamada/WhatsApp ya funcionan de verdad; solo falta sustituir el teléfono (600 000 000), el email de citas, las fotografías de muestra y los datos entre corchetes del aviso legal y la política de privacidad por los reales de la consulta antes de publicarla.</p>
+    <div class="footer-links">
+      <a href="#" data-open-modal="modal-aviso">Aviso legal</a>
+      <a href="#" data-open-modal="modal-privacidad">Política de privacidad</a>
+    </div>
+    <p class="footer-credit">Diseño de ejemplo · 2026</p>
+  </div>
+</footer>
+
+<dialog class="legal-modal" id="modal-aviso">
+  <div class="legal-modal-inner">
+    <button class="modal-close" type="button" data-close aria-label="Cerrar">×</button>
+    <p class="legal-flag">Plantilla legal de ejemplo — sustituye los datos entre corchetes por los reales y haz que la revise un asesor legal o el colegio profesional antes de publicar la web.</p>
+    <h3>Aviso legal</h3>
+    <p>En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los siguientes datos:</p>
+    <ul>
+      <li><strong>Titular:</strong> [Nombre completo o razón social de la clínica]</li>
+      <li><strong>NIF/CIF:</strong> [NIF/CIF]</li>
+      <li><strong>Domicilio:</strong> [Dirección fiscal completa]</li>
+      <li><strong>Correo de contacto:</strong> [email de contacto]</li>
+      <li><strong>Nº de colegiado / centro sanitario:</strong> [Nº de colegiado del odontólogo responsable y Colegio Oficial correspondiente; nº de registro del centro sanitario autonómico]</li>
+    </ul>
+    <p>Este sitio web tiene carácter informativo y de solicitud de cita. El uso de este sitio atribuye la condición de usuario y acepta, desde dicho uso, las condiciones aquí recogidas.</p>
+    <p>Los contenidos, marcas y logotipos son titularidad de [Nombre de la clínica], salvo las fotografías de muestra de este demo, con licencia libre de uso comercial.</p>
+  </div>
+</dialog>
+
+<dialog class="legal-modal" id="modal-privacidad">
+  <div class="legal-modal-inner">
+    <button class="modal-close" type="button" data-close aria-label="Cerrar">×</button>
+    <p class="legal-flag">Plantilla legal de ejemplo — sustituye los datos entre corchetes por los reales y haz que la revise un asesor antes de publicar la web. Al tratarse de un servicio sanitario, el tipo de tratamiento solicitado puede considerarse dato de categoría especial (art. 9 RGPD): coméntalo con tu asesor de protección de datos.</p>
+    <h3>Política de privacidad</h3>
+    <ul>
+      <li><strong>Responsable del tratamiento:</strong> [Nombre de la clínica], [NIF/CIF], [dirección], [email]</li>
+      <li><strong>Finalidad:</strong> gestionar las solicitudes de cita y consultas enviadas mediante el formulario de esta web y contactar contigo para confirmarlas.</li>
+      <li><strong>Legitimación:</strong> tu consentimiento, prestado al marcar la casilla del formulario (art. 6.1.a RGPD).</li>
+      <li><strong>Destinatarios:</strong> no se ceden datos a terceros, salvo obligación legal.</li>
+      <li><strong>Conservación:</strong> mientras exista relación con el paciente o durante los plazos legalmente exigidos.</li>
+      <li><strong>Derechos:</strong> puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a [email de contacto].</li>
+    </ul>
+    <p>Este formulario no almacena tus datos en ningún servidor de esta plantilla: al enviarlo, se abre tu correo o WhatsApp con la solicitud ya redactada para que la mandes tú mismo/a a la clínica.</p>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+gsap.to('.progress', {
+  scaleX: 1, ease: 'none',
+  scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 }
+});
+
+ScrollTrigger.create({
+  trigger: '.hero', start: 'bottom top',
+  onEnter: function(){ document.querySelector('.nav').classList.add('is-scrolled'); },
+  onLeaveBack: function(){ document.querySelector('.nav').classList.remove('is-scrolled'); }
+});
+
+var navToggle = document.querySelector('.nav-toggle');
+var navLinks = document.getElementById('nav-links');
+navToggle.addEventListener('click', function(){
+  var isOpen = navLinks.classList.toggle('is-open');
+  navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+navLinks.querySelectorAll('a').forEach(function(a){
+  a.addEventListener('click', function(){
+    navLinks.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  });
+});
+
+var CLINIC_EMAIL = 'citas@arco-dental.example';
+var CLINIC_WHATSAPP = '34600000000';
+var bookingForm = document.getElementById('booking-form');
+var formNote = document.getElementById('form-note');
+
+function bookingData(){
+  return {
+    name: bookingForm.name.value.trim(),
+    phone: bookingForm.phone.value.trim(),
+    email: bookingForm.email.value.trim(),
+    service: bookingForm.service.value,
+    date: bookingForm.date.value,
+    comment: bookingForm.comment.value.trim()
+  };
+}
+
+function bookingMessage(data){
+  var lines = ['Nueva solicitud de cita', ''];
+  lines.push('Nombre: ' + data.name);
+  lines.push('Teléfono: ' + data.phone);
+  if (data.email) lines.push('Email: ' + data.email);
+  lines.push('Servicio: ' + data.service);
+  if (data.date) lines.push('Fecha preferida: ' + data.date);
+  if (data.comment) lines.push('Comentario: ' + data.comment);
+  return lines.join('\n');
+}
+
+document.getElementById('whatsapp-fallback').addEventListener('click', function(e){
+  if (!bookingForm.name.value && !bookingForm.phone.value) return;
+  e.preventDefault();
+  var text = encodeURIComponent(bookingMessage(bookingData()));
+  window.open('https://wa.me/' + CLINIC_WHATSAPP + '?text=' + text, '_blank', 'noopener');
+});
+
+function showFallback(message){
+  formNote.innerHTML = '';
+  var p = document.createElement('p');
+  p.textContent = '¿No se abrió tu correo? Copia el mensaje y envíalo por WhatsApp o email:';
+  var textarea = document.createElement('textarea');
+  textarea.readOnly = true;
+  textarea.rows = 5;
+  textarea.value = message;
+  var copyBtn = document.createElement('button');
+  copyBtn.type = 'button';
+  copyBtn.className = 'btn btn--ghost copy-btn';
+  copyBtn.textContent = 'Copiar mensaje';
+  copyBtn.addEventListener('click', function(){
+    textarea.select();
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(message).then(function(){
+        copyBtn.textContent = 'Copiado ✓';
+        setTimeout(function(){ copyBtn.textContent = 'Copiar mensaje'; }, 2000);
+      }).catch(function(){ document.execCommand('copy'); });
+    } else {
+      document.execCommand('copy');
+    }
+  });
+  formNote.appendChild(p);
+  formNote.appendChild(textarea);
+  formNote.appendChild(copyBtn);
+}
+
+bookingForm.addEventListener('submit', function(e){
+  e.preventDefault();
+  if (!bookingForm.checkValidity()){
+    bookingForm.reportValidity();
+    return;
+  }
+  var data = bookingData();
+  var message = bookingMessage(data);
+  var subject = encodeURIComponent('Solicitud de cita — ' + data.service);
+  var body = encodeURIComponent(message);
+  window.location.href = 'mailto:' + CLINIC_EMAIL + '?subject=' + subject + '&body=' + body;
+  bookingForm.reset();
+  showFallback(message);
+});
+
+document.querySelectorAll('[data-open-modal]').forEach(function(btn){
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    var modal = document.getElementById(btn.getAttribute('data-open-modal'));
+    if (modal && modal.showModal) modal.showModal();
+  });
+});
+document.querySelectorAll('[data-close]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var dialog = btn.closest('dialog');
+    if (dialog) dialog.close();
+  });
+});
+document.querySelectorAll('.legal-modal').forEach(function(dialog){
+  dialog.addEventListener('click', function(e){
+    if (e.target === dialog) dialog.close();
+  });
+});
+
+if (!reduceMotion){
+  gsap.utils.toArray('[data-parallax]').forEach(function(el){
+    var amount = parseFloat(el.getAttribute('data-parallax'));
+    gsap.to(el, {
+      yPercent: amount, ease: 'none',
+      scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  });
+
+  gsap.utils.toArray('.frame-img').forEach(function(img, i){
+    var dir = i % 2 === 0 ? 1 : -1;
+    gsap.fromTo(img,
+      { yPercent: -9 * dir },
+      { yPercent: 9 * dir, ease: 'none',
+        scrollTrigger: { trigger: img.closest('.frame'), start: 'top bottom', end: 'bottom top', scrub: true } }
+    );
+  });
+
+  gsap.to('.hero-photo', {
+    scale: 1.04, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+  });
+
+  gsap.fromTo('.showcase-image', { backgroundPosition: '50% 35%' }, {
+    backgroundPosition: '50% 65%', ease: 'none',
+    scrollTrigger: { trigger: '.showcase', start: 'top bottom', end: 'bottom top', scrub: true }
+  });
+
+  ScrollTrigger.matchMedia({
+    '(min-width: 701px)': function(){
+      document.querySelectorAll('[data-expand]').forEach(function(el){
+        gsap.fromTo(el,
+          { scale: .82, y: 60, opacity: .4 },
+          { scale: 1, y: 0, opacity: 1, ease: 'none',
+            scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 35%', scrub: true } }
+        );
+      });
+
+      gsap.to('.showcase-image', {
+        scale: 1.28, ease: 'none',
+        scrollTrigger: { trigger: '.showcase', start: 'top top', end: 'bottom top', scrub: true, pin: true }
+      });
+      gsap.fromTo('.showcase-overlay', { opacity: 0, y: 30 }, {
+        opacity: 1, y: 0, ease: 'none',
+        scrollTrigger: { trigger: '.showcase', start: 'top top', end: '35% top', scrub: true }
+      });
+    },
+    '(max-width: 700px)': function(){
+      document.querySelectorAll('[data-expand]').forEach(function(el){
+        gsap.fromTo(el, { y: 40, opacity: .5 }, {
+          y: 0, opacity: 1, ease: 'none',
+          scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 55%', scrub: true }
+        });
+      });
+      gsap.set('.showcase-overlay', { opacity: 1 });
+    }
+  });
+
+  gsap.utils.toArray('.gallery-card').forEach(function(card, i){
+    gsap.fromTo(card, { y: 46, opacity: 0 }, {
+      y: 0, opacity: 1, duration: .6, ease: 'power2.out',
+      scrollTrigger: { trigger: card, start: 'top 88%' }
+    });
+  });
+
+  gsap.utils.toArray('.file').forEach(function(file, i){
+    gsap.fromTo(file, { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, duration: .6, ease: 'power2.out',
+      scrollTrigger: { trigger: file, start: 'top 90%' }
+    });
+  });
+} else {
+  document.querySelectorAll('[data-expand], .gallery-card, .file, .showcase-overlay').forEach(function(el){
+    el.style.opacity = 1;
+  });
+}
+</script>
+
+</body>
+</html>
