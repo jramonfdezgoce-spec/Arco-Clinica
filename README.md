@@ -1,47 +1,89 @@
-# ARCO — plantilla web para clínica dental
+# Arco: web para clínica dental
 
-Sitio de una sola página con efecto parallax (GSAP + ScrollTrigger), formulario de cita, botones de llamada/WhatsApp, mapa y menú móvil. Pensado para subirlo tal cual a cualquier hosting estático y luego personalizarlo.
+Web de una sola página, sin servidor y sin dependencias externas. Las fotos se abren desde un arco hasta ocupar toda la pantalla al hacer scroll, y el efecto es el mismo en móvil, tablet y ordenador. Incluye formulario de cita, botones de llamada, WhatsApp y mapa, textos legales de plantilla, y todo lo necesario para que Google la encuentre.
 
-## Publicarlo (elige una opción)
+Ahora mismo está publicada en GitHub Pages: https://jramonfdezgoce-spec.github.io/Arco-Clinica/
 
-- **Netlify**: arrastra esta carpeta entera a [app.netlify.com/drop](https://app.netlify.com/drop). Listo en segundos, con HTTPS.
-- **Vercel**: `npx vercel` dentro de esta carpeta (pide cuenta gratuita).
-- **GitHub Pages**: sube esta carpeta a un repositorio y activa Pages en la configuración del repo.
-- **Hosting compartido de toda la vida**: sube `index.html` y la carpeta `images/` por FTP/SFTP a la raíz del dominio.
+## Estructura
 
-En todos los casos, cuando tengas dominio propio, añade estas dos etiquetas dentro de `<head>` en `index.html` (sustituye la URL):
-
-```html
-<link rel="canonical" href="https://www.tudominio.es/">
-<meta property="og:image" content="https://www.tudominio.es/images/hero.jpg">
+```
+index.html                 la página
+assets/css/styles.css      estilos
+assets/js/app.js           menú, formulario y animaciones (aquí están el correo y el WhatsApp)
+assets/js/vendor/          GSAP y ScrollTrigger, alojados aquí (no se llama a ningún tercero)
+assets/fonts/              tipografías alojadas aquí
+images/                    fotos (hero, showcase, historia, visitanos, og-image)
+icons/                     favicon, icono de la pantalla de inicio y logotipo
+manifest.webmanifest       instalación como app en el móvil
+sitemap.xml, robots.txt    para buscadores
+404.html                   página de error
+_headers                   cabeceras de seguridad (solo Netlify y Cloudflare Pages)
+tools/set-site-url.py      cambia la dirección web en todos los archivos
 ```
 
-## Antes de publicarla, sustituye
+## Antes de entregarla a una clínica
 
-- [ ] **Teléfono**: busca `600000000` y `600 000 000` en `index.html` y cámbialos por el real (aparece en los enlaces de llamar, WhatsApp y en el formulario).
-- [ ] **Email**: busca `citas@arco-dental.example` y ponlo el real de la clínica.
-- [ ] **Dirección**: busca `Avenida del Arco, 24` (aparece dos veces: en el texto y en el enlace de Google Maps) y ponla la real.
-- [ ] **Horario, servicios y precios**: son de ejemplo, revísalos con el equipo de la clínica.
-- [ ] **Fotografías**: las 4 imágenes en `images/` son de banco de imágenes libre de uso comercial (Pexels), pensadas solo para la demo. Sustitúyelas por fotos reales de la consulta con el mismo nombre de archivo (o cambia el `src` en `index.html`) para que el efecto de scroll funcione igual con las imágenes definitivas.
-- [ ] **Meta descripción**: en `<head>`, la etiqueta `<meta name="description">` tiene `[ciudad]` entre corchetes — complétala.
-- [ ] **Aviso legal y política de privacidad**: al final de la página hay dos ventanas emergentes ("Aviso legal" y "Política de privacidad") con un texto plantilla y datos entre corchetes (NIF, dirección fiscal, número de colegiado del dentista responsable, etc.). **Haz que las revise un asesor legal o el colegio profesional antes de publicar la web** — no son un documento legal certificado, son un punto de partida. Como se trata de un servicio sanitario, el tipo de tratamiento que pide cada paciente puede considerarse un dato de categoría especial (art. 9 RGPD): coméntalo con quien lleve la protección de datos de la clínica.
+Sustituye los datos de ejemplo. Busca cada texto en el proyecto:
 
-## Cómo funciona el formulario de cita (y su límite)
+- [ ] Teléfono: `600000000` y `600 000 000` (`index.html`).
+- [ ] Correo de citas y WhatsApp: `CLINIC_EMAIL` y `CLINIC_WHATSAPP` al principio de `assets/js/app.js`.
+- [ ] Dirección: `Avenida del Arco, 24, 1º B` y la búsqueda de Google Maps (`index.html`).
+- [ ] Ciudad y código postal: `[Ciudad]`, `[Código postal]` y `[ciudad]` en el bloque de datos estructurados y en la meta descripción.
+- [ ] Nombre de la clínica: «Arco» en textos, títulos, `manifest.webmanifest` y logotipo (`icons/favicon.svg`).
+- [ ] Horarios, tratamientos y precios: son de ejemplo.
+- [ ] Opiniones: son inventadas. Pon opiniones reales con permiso del paciente o quítalas.
+- [ ] Fotografías de `images/`: son de banco libre (Pexels). Cámbialas por fotos reales conservando los nombres, con el mismo formato vertical en `hero.jpg` y `showcase.jpg`. Genera también las versiones `-900.jpg` y `og-image.jpg` (1200×630).
+- [ ] Aviso legal y política de privacidad (al final de `index.html`): son plantillas con datos entre corchetes. Que las revise un asesor legal antes de publicar. Al ser un servicio sanitario, el tratamiento que pide cada paciente puede ser un dato de categoría especial (art. 9 del RGPD).
 
-Al enviarlo, se abre el programa de correo del visitante con la solicitud ya redactada, y debajo aparece un botón para copiar el mismo mensaje por si prefiere pegarlo en WhatsApp o si su ordenador no tiene un cliente de correo configurado (pasa a menudo en móvil). No hay ningún servidor de por medio: nadie guarda la solicitud en ningún sitio hasta que el propio visitante la envía.
+## Cambiar la dirección web (dominio propio)
 
-Es una solución que funciona hoy mismo sin cuentas ni configuración, pero tiene un límite real: si el visitante no completa ese paso (no le sale el correo y no copia el mensaje), la clínica nunca se entera de esa solicitud. Si más adelante quieres un formulario que llegue solo, sin depender de que el visitante confirme el envío, las opciones más sencillas son:
+Con dominio propio, ejecuta una sola vez:
 
-- Un servicio de formularios como [Formspree](https://formspree.io) o [Web3Forms](https://web3forms.com): te dan una URL o una clave gratuitas, y solo hay que apuntar el `<form>` a esa URL.
-- Un sistema de citas online ya hecho para clínicas (Doctoralia, Cita Previa, etc.), sustituyendo esta sección por su widget.
+```bash
+python3 tools/set-site-url.py https://www.tuclinica.es/
+```
 
-No lo he conectado yo porque ambas opciones piden crear una cuenta a nombre de la clínica — es mejor que lo haga quien vaya a gestionar las citas.
+Actualiza la dirección canónica, las etiquetas para redes sociales, los datos estructurados, el mapa del sitio y `robots.txt`.
 
-## Lo que ya funciona de verdad
+## Publicarla
 
-- Formulario de cita con validación (nombre, teléfono y consentimiento obligatorios).
-- Botones de llamar, WhatsApp y "Cómo llegar" (Google Maps) con los datos de ejemplo.
-- Menú de navegación en móvil (antes no existía).
-- Ventanas de Aviso legal y Política de privacidad enlazadas desde el pie y desde el formulario.
-- Cabecera con metadatos para redes sociales y buscadores, y favicon.
-- Imágenes como archivos sueltos y optimizados (antes iban incrustadas en el HTML).
+- **GitHub Pages** (gratis): Settings, Pages, rama `main`, carpeta `/ (root)`. Es la opción que ya está activa.
+- **Netlify o Cloudflare Pages** (gratis): arrastra la carpeta entera. Aplican las cabeceras de `_headers` (seguridad y caché).
+- **Hosting de siempre**: sube todo por FTP a la raíz del dominio.
+
+Los subdominios de `github.io` funcionan, pero para una clínica real conviene dominio propio (por ejemplo `tuclinica.es`): da confianza, y GitHub Pages, Netlify y Cloudflare permiten añadirlo gratis con HTTPS.
+
+## Salir en Google
+
+Publicar la web no basta: hay que decirle a Google que existe. Es gratis y lleva unos 15 minutos.
+
+1. **Google Search Console** ([search.google.com/search-console](https://search.google.com/search-console)): añade la web como «Prefijo de URL» con la dirección final, y verifícala con la etiqueta HTML. Pega esa etiqueta `<meta name="google-site-verification" ...>` en el `<head>` de `index.html`, donde está el comentario.
+2. En **Sitemaps**, envía `sitemap.xml`.
+3. En **Inspección de URLs**, pega la dirección de la portada y pulsa «Solicitar indexación».
+4. **Perfil de Empresa de Google** ([business.google.com](https://business.google.com)): es lo que hace que la clínica aparezca en Google Maps y en el recuadro de «dentista cerca de mí». Da de alta la clínica con la misma dirección, teléfono y horario que la web, y pon la dirección de la web en el perfil. Para una clínica local, es más importante que la propia web.
+5. Comprueba la web con [PageSpeed Insights](https://pagespeed.web.dev), la [Prueba de resultados enriquecidos](https://search.google.com/test/rich-results) (debe reconocer «Dentist») y el informe de usabilidad móvil de Search Console.
+
+Google tarda entre unos días y unas semanas en mostrar una web nueva. Con el Perfil de Empresa y una web rápida y clara, una clínica pequeña puede salir en su barrio bastante antes.
+
+## Cómo funciona el formulario
+
+Al pulsar «Enviar por correo» se abre el correo del visitante con la solicitud escrita, y debajo aparece un botón para copiar el mensaje por si prefiere pegarlo en WhatsApp o no tiene correo configurado. No hay servidor: la clínica solo recibe la solicitud si el visitante termina de enviar ese correo.
+
+Para que las solicitudes lleguen solas, conecta el `<form>` a un servicio de formularios (Formspree, Web3Forms) o sustituye la sección por el widget de un sistema de citas (Doctoralia, etc.). Ambas opciones requieren una cuenta a nombre de la clínica.
+
+## Privacidad y cookies
+
+La web no usa cookies, no tiene analíticas y no carga nada de terceros: las tipografías y GSAP se sirven desde el mismo dominio. Por eso no necesita banner de cookies. Si se añaden Google Analytics, un widget de citas o cualquier otro servicio externo, habrá que añadir el banner y actualizar la política de privacidad.
+
+La etiqueta `Content-Security-Policy` del `<head>` bloquea cualquier script o recurso externo. Si se añade un servicio externo, hay que permitirlo ahí.
+
+## Móvil y accesibilidad
+
+- El efecto de scroll se adapta al tamaño: en móvil el texto va arriba y el arco abajo, y en ordenador van lado a lado. Con «reducir movimiento» activado en el sistema, la página no anima nada y muestra las fotos ya recortadas en arco.
+- Diseñada para pantallas desde 320 px, con márgenes de seguridad para el notch, altura de pantalla correcta en móviles (`svh`/`dvh`), campos que no hacen zoom en iOS y zonas táctiles de al menos 44 px.
+- Contraste de texto por encima de 4,5:1, foco visible, enlace para saltar al contenido, etiquetas visibles en todos los campos y errores del formulario junto a cada campo.
+- Las animaciones de botones, menú y ventanas duran menos de 300 ms y responden al pulsar; los efectos al pasar el ratón solo se activan en dispositivos que tienen ratón.
+
+## Créditos
+
+Fotografías de muestra de [Pexels](https://www.pexels.com) (licencia libre de uso comercial). Tipografías Young Serif y Atkinson Hyperlegible Next (SIL Open Font License). Animación con [GSAP](https://gsap.com) y ScrollTrigger.

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jramonfdezgoce-spec.github.io/Arco-Clinica/sitemap.xml
