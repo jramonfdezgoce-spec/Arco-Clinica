@@ -10,6 +10,8 @@ Ahora mismo está publicada en GitHub Pages: https://jramonfdezgoce-spec.github.
 index.html                 la página
 assets/css/styles.css      estilos
 assets/js/app.js           menú, formulario y animaciones (aquí están el correo y el WhatsApp)
+assets/js/consent.js       aviso de cookies y carga de Google Analytics (aquí va el id de medición)
+assets/js/mascot.js        la mascota que sigue el scroll esquivando el texto
 assets/js/vendor/          GSAP y ScrollTrigger, alojados aquí (no se llama a ningún tercero)
 assets/fonts/              tipografías alojadas aquí
 images/                    fotos (hero, showcase, historia, visitanos, og-image)
@@ -33,7 +35,8 @@ Sustituye los datos de ejemplo. Busca cada texto en el proyecto:
 - [ ] Horarios, tratamientos y precios: son de ejemplo.
 - [ ] Opiniones: son inventadas. Pon opiniones reales con permiso del paciente o quítalas.
 - [ ] Fotografías de `images/`: son de banco libre (Pexels). Cámbialas por fotos reales conservando los nombres, con el mismo formato vertical en `hero.jpg` y `showcase.jpg`. Genera también las versiones `-900.jpg` y `og-image.jpg` (1200×630).
-- [ ] Aviso legal y política de privacidad (al final de `index.html`): son plantillas con datos entre corchetes. Que las revise un asesor legal antes de publicar. Al ser un servicio sanitario, el tratamiento que pide cada paciente puede ser un dato de categoría especial (art. 9 del RGPD).
+- [ ] Los cuatro textos legales (aviso legal, política de privacidad, política de cookies y condiciones de contratación, al final de `index.html`): son plantillas con datos entre corchetes. Que las revise un asesor legal antes de publicar. Al ser un servicio sanitario, el tratamiento que pide cada paciente puede ser un dato de categoría especial (art. 9 del RGPD).
+- [ ] Si activas Google Analytics: sustituye `G-XXXXXXXXXX` por tu id de medición real en `assets/js/consent.js`. Hasta entonces no se carga ningún script, aunque el visitante acepte cookies de analítica.
 
 ## Cambiar la dirección web (dominio propio)
 
@@ -61,21 +64,26 @@ Publicar la web no basta: hay que decirle a Google que existe. Es gratis y lleva
 2. En **Sitemaps**, envía `sitemap.xml`.
 3. En **Inspección de URLs**, pega la dirección de la portada y pulsa «Solicitar indexación».
 4. **Perfil de Empresa de Google** ([business.google.com](https://business.google.com)): es lo que hace que la clínica aparezca en Google Maps y en el recuadro de «dentista cerca de mí». Da de alta la clínica con la misma dirección, teléfono y horario que la web, y pon la dirección de la web en el perfil. Para una clínica local, es más importante que la propia web.
-5. Comprueba la web con [PageSpeed Insights](https://pagespeed.web.dev), la [Prueba de resultados enriquecidos](https://search.google.com/test/rich-results) (debe reconocer «Dentist») y el informe de usabilidad móvil de Search Console.
+5. **Google Analytics (GA4)** ([analytics.google.com](https://analytics.google.com)): crea una propiedad GA4 a nombre de la clínica y copia el id de medición (`G-XXXXXXXXXX`) en `assets/js/consent.js`. El script ya está preparado y solo se carga si el visitante acepta cookies de analítica en el aviso de cookies.
+6. Comprueba la web con [PageSpeed Insights](https://pagespeed.web.dev), la [Prueba de resultados enriquecidos](https://search.google.com/test/rich-results) (debe reconocer «Dentist») y el informe de usabilidad móvil de Search Console.
 
 Google tarda entre unos días y unas semanas en mostrar una web nueva. Con el Perfil de Empresa y una web rápida y clara, una clínica pequeña puede salir en su barrio bastante antes.
+
+Todos estos pasos (Search Console, Perfil de Empresa, Analytics) necesitan una cuenta de Google a nombre de la clínica: no son algo que se pueda dejar configurado de antemano en el código.
 
 ## Cómo funciona el formulario
 
 Al pulsar «Enviar por correo» se abre el correo del visitante con la solicitud escrita, y debajo aparece un botón para copiar el mensaje por si prefiere pegarlo en WhatsApp o no tiene correo configurado. No hay servidor: la clínica solo recibe la solicitud si el visitante termina de enviar ese correo.
 
-Para que las solicitudes lleguen solas, conecta el `<form>` a un servicio de formularios (Formspree, Web3Forms) o sustituye la sección por el widget de un sistema de citas (Doctoralia, etc.). Ambas opciones requieren una cuenta a nombre de la clínica.
+Para que las solicitudes lleguen solas, conecta el `<form>` a un servicio de formularios (Formspree, Web3Forms) o sustituye la sección por el widget de un sistema de citas con calendario y recordatorios (Amelia, SimplyBook.me, Calendly, Doctoralia...). Si además quieres cobrar por adelantado (una fianza, un producto, un bono de sesiones), esos widgets se conectan a su vez a una pasarela de pago (Stripe, RedSys/TPV virtual de tu banco, PayPal). Todo esto requiere una cuenta a nombre de la clínica: no hay forma de dejarlo listo sin esas credenciales reales.
 
 ## Privacidad y cookies
 
-La web no usa cookies, no tiene analíticas y no carga nada de terceros: las tipografías y GSAP se sirven desde el mismo dominio. Por eso no necesita banner de cookies. Si se añaden Google Analytics, un widget de citas o cualquier otro servicio externo, habrá que añadir el banner y actualizar la política de privacidad.
+La web pregunta al entrar si aceptas cookies no esenciales, con un aviso que deja aceptar, rechazar o configurar (`assets/js/consent.js`). Las únicas cookies no esenciales previstas son las de Google Analytics, y no se cargan hasta que el visitante las acepta y tú hayas puesto un id de medición real (ver «Salir en Google»). Sin ese id, o si el visitante rechaza, la web sigue sin cargar nada de terceros: las tipografías y GSAP se sirven desde el mismo dominio.
 
-La etiqueta `Content-Security-Policy` del `<head>` bloquea cualquier script o recurso externo. Si se añade un servicio externo, hay que permitirlo ahí.
+El detalle de qué cookies hay, para qué y cuánto duran está en la política de cookies del pie de página, y el visitante puede cambiar su respuesta en cualquier momento desde «Preferencias de cookies». Si en el futuro añades un widget de citas, un chat u otro servicio externo, revisa y actualiza también la política de cookies y la de privacidad.
+
+La etiqueta `Content-Security-Policy` del `<head>` bloquea cualquier script o recurso externo salvo los de Google Analytics, ya permitidos para cuando lo actives. Si se añade otro servicio externo, hay que permitirlo ahí también.
 
 ## Móvil y accesibilidad
 

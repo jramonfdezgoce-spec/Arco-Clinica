@@ -19,6 +19,18 @@
   var footer = document.querySelector('.site-footer');
   var zones = footer ? sections.concat([footer]) : sections;
 
+  // The cookie banner floats above everything, fixed to the bottom edge —
+  // exactly where the corner-peek fallback likes to hide the tooth. Tracked
+  // as a single rect (not scanned via AVOID) since it comes and goes.
+  var cookieBanner = document.querySelector('.cookie-banner');
+  function cookieBannerRect() {
+    if (!cookieBanner || cookieBanner.hidden) return null;
+    var r = cookieBanner.getBoundingClientRect();
+    if (r.width <= 0 || r.height <= 0) return null;
+    var pad = 10;
+    return { left: r.left - pad, right: r.right + pad, top: r.top - pad, bottom: r.bottom + pad };
+  }
+
   // Elements the tooth should never sit on top of: readable text and the
   // form/price cards. Photos are excluded on purpose — during the arch
   // sections they can fill the whole screen, and floating over a photo reads
@@ -40,7 +52,9 @@
   }
 
   function wholePageRects() {
-    return footer ? avoidRects(main).concat(avoidRects(footer)) : avoidRects(main);
+    var out = footer ? avoidRects(main).concat(avoidRects(footer)) : avoidRects(main);
+    var cb = cookieBannerRect();
+    return cb ? out.concat([cb]) : out;
   }
 
   function avoidRects(section) {
@@ -180,6 +194,8 @@
     var wrapRect = wrapEl ? wrapEl.getBoundingClientRect() : null;
 
     var rects = avoidRects(active);
+    var cb = cookieBannerRect();
+    if (cb) rects = rects.concat([cb]);
     var xs = candidateXs(vw, wrapRect);
     var ys = candidateYs(top, bottom, vh * 0.58, rect, rects);
     var prevX = state.tx < 0 ? vw / 2 : state.tx;

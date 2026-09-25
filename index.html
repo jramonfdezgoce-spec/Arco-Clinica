@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Arco Clínica Dental: dentista de barrio, cita en 48 horas</title>
 <meta name="description" content="Clínica dental de barrio en [ciudad]. Primera visita sin coste, presupuesto por escrito y cita en menos de 48 horas. Revisión, ortodoncia e implantes.">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com; base-uri 'self'; form-action 'self'; object-src 'none'">
+<!-- Google Analytics (GA4) solo se carga si el visitante acepta cookies de analítica en el aviso de cookies; el id de medición se configura en assets/js/consent.js -->
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://jramonfdezgoce-spec.github.io/Arco-Clinica/">
@@ -339,6 +340,9 @@
       <div class="footer-links">
         <button class="link" type="button" data-open-modal="modal-aviso">Aviso legal</button>
         <button class="link" type="button" data-open-modal="modal-privacidad">Política de privacidad</button>
+        <button class="link" type="button" data-open-modal="modal-cookies">Política de cookies</button>
+        <button class="link" type="button" data-open-modal="modal-cgc">Condiciones de contratación</button>
+        <button class="link" type="button" id="cookie-settings-link">Preferencias de cookies</button>
       </div>
     </div>
     <div>
@@ -380,13 +384,60 @@
       <li><strong>Tus derechos:</strong> puedes pedir acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a [correo de contacto].</li>
     </ul>
     <p>Este formulario no guarda tus datos en ningún servidor de esta web: al enviarlo se abre tu correo con la solicitud escrita, y eres tú quien la envía a la clínica.</p>
-    <p>Esta web no usa cookies ni herramientas de seguimiento, y sus tipografías y scripts se sirven desde el mismo dominio, sin llamadas a terceros.</p>
+    <p>Esta web solo usa cookies o almacenamiento local de analítica si das tu permiso en el aviso de cookies. Consulta el detalle en la <button class="link" type="button" data-open-modal="modal-cookies">política de cookies</button>.</p>
   </div>
 </dialog>
+
+<dialog class="legal-modal" id="modal-cookies" aria-labelledby="titulo-cookies">
+  <div class="legal-inner">
+    <button class="modal-close" type="button" data-close>Cerrar</button>
+    <p class="legal-flag">Plantilla de ejemplo. Sustituye los datos entre corchetes por los reales y pide a un asesor que la revise antes de publicar la web.</p>
+    <h2 id="titulo-cookies">Política de cookies</h2>
+    <p>Al entrar en la web te preguntamos si aceptas cookies no esenciales. Puedes cambiar tu respuesta cuando quieras desde «Preferencias de cookies», en el pie de página.</p>
+    <ul>
+      <li><strong>Necesarias:</strong> guardan tu respuesta al aviso de cookies (almacenamiento local del navegador, no un archivo de terceros). No se pueden desactivar porque la web no funcionaría sin ellas. Duración: hasta que borres los datos del sitio.</li>
+      <li><strong>Analíticas (opcionales):</strong> Google Analytics (Google Ireland Ltd.), para saber qué páginas se visitan y cuántas solicitudes de cita se completan. Solo se activan si las aceptas. Duración: hasta 14 meses. Más información en la <a href="https://policies.google.com/privacy" rel="noopener">política de privacidad de Google</a>.</li>
+    </ul>
+    <p>Esta web no usa cookies de publicidad ni comparte datos con redes sociales.</p>
+  </div>
+</dialog>
+
+<dialog class="legal-modal" id="modal-cgc" aria-labelledby="titulo-cgc">
+  <div class="legal-inner">
+    <button class="modal-close" type="button" data-close>Cerrar</button>
+    <p class="legal-flag">Plantilla de ejemplo. Sustituye los datos entre corchetes por los reales y pide a un asesor legal que la revise antes de publicar la web.</p>
+    <h2 id="titulo-cgc">Condiciones generales de contratación</h2>
+    <ul>
+      <li><strong>Precios:</strong> los precios mostrados en «Precios claros desde el primer día» son orientativos e incluyen IVA. El presupuesto definitivo, con el IVA desglosado, se entrega por escrito tras la primera revisión y antes de empezar cualquier tratamiento.</li>
+      <li><strong>Forma de pago:</strong> [efectivo, tarjeta y/o financiación], a pagar en la clínica en el momento de cada sesión, salvo que se acuerde otra cosa por escrito.</li>
+      <li><strong>Plazos:</strong> la primera cita se ofrece en menos de 48 horas laborables desde la solicitud; la duración de cada tratamiento se indica en el presupuesto.</li>
+      <li><strong>Cancelación de citas:</strong> puedes cancelar o cambiar tu cita avisando con al menos [24 horas] de antelación, llamando al teléfono de la clínica o respondiendo al mensaje de confirmación. Las citas no canceladas con ese aviso [pueden conllevar un cargo de Nº €, a definir por la clínica].</li>
+      <li><strong>Derecho de desistimiento:</strong> al ser un servicio sanitario que se presta con tu consentimiento expreso en la fecha de la cita, una vez completado el tratamiento no aplica el derecho de desistimiento de 14 días (art. 103.a y c del Real Decreto Legislativo 1/2007). Si la clínica vende algún producto físico (por ejemplo, un cepillo o un aparato de ortodoncia a medida antes de fabricarse), se informará del derecho de desistimiento que corresponda en ese caso concreto.</li>
+      <li><strong>Reclamaciones:</strong> puedes reclamar escribiendo a [correo de contacto] o, si no llegáis a un acuerdo, ante la hoja de reclamaciones de la clínica o el organismo de consumo de tu comunidad autónoma.</li>
+    </ul>
+  </div>
+</dialog>
+
+<div class="cookie-banner" id="cookie-banner" hidden>
+  <div class="cookie-banner-inner">
+    <p>Usamos cookies necesarias para que la web funcione. Con tu permiso, también nos gustaría usar cookies de analítica para saber qué páginas se visitan más. Puedes leer el detalle en la <button class="link" type="button" data-open-modal="modal-cookies">política de cookies</button>.</p>
+    <div class="cookie-prefs" id="cookie-prefs" hidden>
+      <label class="cookie-toggle"><input type="checkbox" checked disabled> Necesarias (siempre activas)</label>
+      <label class="cookie-toggle"><input type="checkbox" id="cookie-analytics"> Analíticas (Google Analytics)</label>
+    </div>
+    <div class="cookie-actions">
+      <button class="btn btn--ghost btn--small" type="button" id="cookie-configure">Configurar</button>
+      <button class="btn btn--ghost btn--small" type="button" id="cookie-reject">Rechazar</button>
+      <button class="btn btn--primary btn--small" type="button" id="cookie-accept">Aceptar</button>
+      <button class="btn btn--primary btn--small" type="button" id="cookie-save" hidden>Guardar preferencias</button>
+    </div>
+  </div>
+</div>
 
 <script src="assets/js/vendor/gsap.min.js" defer></script>
 <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/js/app.js" defer></script>
+<script src="assets/js/consent.js" defer></script>
 <script src="assets/js/mascot.js" defer></script>
 </body>
 </html>

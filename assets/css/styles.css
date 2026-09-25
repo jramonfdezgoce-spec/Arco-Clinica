@@ -247,6 +247,24 @@ button,a,summary,label[for]{touch-action:manipulation;}
 .modal-close:active{transform:scale(.97);}
 @media (hover:hover) and (pointer:fine){ .modal-close:hover{background:var(--navy); color:#fff;} }
 
+/* ---------- cookie consent banner ---------- */
+.cookie-banner{
+  position:fixed; left:0; right:0; bottom:0; z-index:90;
+  padding:18px var(--pad-r) calc(18px + env(safe-area-inset-bottom, 0px)) var(--pad-l);
+  background:var(--enamel); border-top:1px solid var(--line);
+  box-shadow:0 -16px 34px -20px rgba(20,35,58,.4);
+}
+.cookie-banner[hidden]{display:none;}
+.cookie-banner-inner{max-width:var(--wrap); margin-inline:auto; display:flex; flex-wrap:wrap; align-items:center; gap:12px 28px;}
+.cookie-banner-inner p{flex:1 1 320px; margin:0; font-size:.9375rem; color:var(--graphite); line-height:1.5;}
+.cookie-prefs{display:flex; flex-wrap:wrap; gap:8px 24px; flex-basis:100%;}
+.cookie-prefs[hidden]{display:none;}
+.cookie-toggle{display:flex; align-items:center; gap:.5rem; font-size:.9375rem; color:var(--navy); font-weight:500;}
+.cookie-toggle input{width:20px; height:20px; flex:none; accent-color:var(--navy);}
+.cookie-actions{display:flex; flex-wrap:wrap; gap:.6rem;}
+.cookie-actions .btn[hidden]{display:none;}
+@media (max-width:560px){ .cookie-actions{width:100%;} .cookie-actions .btn{flex:1 1 auto;} }
+
 /* ---------- phones and small tablets ---------- */
 @media (max-width:899px){
   .header-inner{gap:12px;}
