@@ -238,15 +238,9 @@
   gsap.registerPlugin(ScrollTrigger);
   var mm = gsap.matchMedia();
 
-  function archOpens(frame) {
-    var img = qs('img', frame);
-    var half = function () { return frame.offsetWidth / 2; };
-    gsap.fromTo(frame,
-      { scale: .9, borderTopLeftRadius: half, borderTopRightRadius: half },
-      { scale: 1, borderTopLeftRadius: 16, borderTopRightRadius: 16, ease: 'none',
-        scrollTrigger: { trigger: frame, start: 'top 92%', end: 'top 38%', scrub: .6, invalidateOnRefresh: true } });
-    gsap.fromTo(img, { yPercent: -5, scale: 1.1 }, { yPercent: 5, scale: 1, ease: 'none',
-      scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: true } });
+  function photoDrift(img) {
+    gsap.fromTo(img, { yPercent: -6, scale: 1.1 }, { yPercent: 6, scale: 1, ease: 'none',
+      scrollTrigger: { trigger: img.closest('.photo-bg'), start: 'top bottom', end: 'bottom top', scrub: true } });
   }
 
   mm.add('(prefers-reduced-motion: no-preference) and (min-height: 520px)', function () {
@@ -260,7 +254,7 @@
   });
 
   mm.add('(prefers-reduced-motion: no-preference)', function () {
-    qsa('.arch-frame').forEach(archOpens);
+    qsa('.photo-bg-img').forEach(photoDrift);
   });
 
   ScrollTrigger.addEventListener('refresh', measureAll);
