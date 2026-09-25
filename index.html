@@ -65,6 +65,21 @@
 <script>document.documentElement.classList.add('js');</script>
 <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
+<div class="mascot" id="mascot" aria-hidden="true" data-mood="neutral">
+  <svg viewBox="0 0 100 112" xmlns="http://www.w3.org/2000/svg">
+    <path class="mascot-shine" d="M30 20c-6 10-4 22 4 26-10-2-16-14-10-28Z" fill="#fff" opacity=".55"/>
+    <path class="mascot-body" d="M50 6C25 6 13 27 13 52c0 14 5 25 5 38 0 9 6 15 13 15 6 0 11-5 12-12l2-11c1-6 4-9 8-9s7 3 8 9l2 11c1 7 6 12 12 12 7 0 13-6 13-15 0-13 5-24 5-38C87 27 75 6 50 6Z" fill="#f4f6f5" stroke="#14233a" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse class="mascot-cheek" cx="27" cy="62" rx="7" ry="4.5" fill="#b5364f" opacity=".35"/>
+    <ellipse class="mascot-cheek" cx="73" cy="62" rx="7" ry="4.5" fill="#b5364f" opacity=".35"/>
+    <circle class="mascot-eye" cx="37" cy="48" r="5.5" fill="#14233a"/>
+    <circle class="mascot-eye" cx="63" cy="48" r="5.5" fill="#14233a"/>
+    <circle cx="35.3" cy="46" r="1.6" fill="#fff"/>
+    <circle cx="61.3" cy="46" r="1.6" fill="#fff"/>
+    <path class="mouth-neutral" d="M41 66q9 8 18 0" fill="none" stroke="#14233a" stroke-width="4" stroke-linecap="round"/>
+    <path class="mouth-happy" d="M38 64q12 20 24 0q-12 14-24 0Z" fill="#b5364f"/>
+  </svg>
+</div>
+
 <header class="site-header" id="cabecera">
   <div class="header-inner">
     <a class="brand" href="#inicio" aria-label="Arco clínica dental, ir al inicio">
@@ -105,9 +120,10 @@
     </div>
   </section>
 
-  <section class="section" id="primera-visita" aria-labelledby="titulo-visita">
-    <div class="wrap visit-grid">
-      <div>
+  <section class="section photo-bg" id="primera-visita" aria-labelledby="titulo-visita">
+    <img class="photo-bg-img" src="images/historia.jpg" srcset="images/historia-900.jpg 900w, images/historia.jpg 1800w" sizes="100vw" width="1800" height="2700" loading="lazy" decoding="async" alt="Odontólogo con guantes sosteniendo un modelo de yeso de una dentadura para explicar un tratamiento">
+    <div class="wrap">
+      <div class="photo-panel">
         <h2 id="titulo-visita">La primera visita, paso a paso</h2>
         <p class="lead lead--spaced">Mucha gente aplaza el dentista por no saber qué le van a encontrar ni cuánto le va a costar. Por eso la primera cita es solo para conocer tu caso.</p>
         <ol class="steps">
@@ -130,9 +146,6 @@
             </div>
           </li>
         </ol>
-      </div>
-      <div class="arch-frame">
-        <img src="images/historia.jpg" width="1100" height="1650" loading="lazy" decoding="async" alt="Odontólogo con guantes sosteniendo un modelo de yeso de una dentadura para explicar un tratamiento">
       </div>
     </div>
   </section>
@@ -173,12 +186,10 @@
     </div>
   </section>
 
-  <section class="section section--mint" id="opiniones" aria-labelledby="titulo-opiniones">
-    <div class="wrap voices-grid">
-      <div class="arch-frame">
-        <img src="images/visitanos.jpg" width="1400" height="933" loading="lazy" decoding="async" alt="Paciente sonriendo mientras se mira los dientes en un espejo de mano, tumbada en el sillón">
-      </div>
-      <div>
+  <section class="section photo-bg" id="opiniones" aria-labelledby="titulo-opiniones">
+    <img class="photo-bg-img" src="images/visitanos.jpg" srcset="images/visitanos-900.jpg 900w, images/visitanos.jpg 1800w" sizes="100vw" width="1800" height="1200" loading="lazy" decoding="async" alt="Paciente sonriendo mientras se mira los dientes en un espejo de mano, tumbada en el sillón">
+    <div class="wrap">
+      <div class="photo-panel photo-panel--right">
         <h2 class="sr-only" id="titulo-opiniones">Lo que dicen los pacientes</h2>
         <figure class="quote-main">
           <blockquote>«Le tenía pánico al dentista y aquí se me pasó de verdad.»</blockquote>
@@ -376,5 +387,6 @@
 <script src="assets/js/vendor/gsap.min.js" defer></script>
 <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/js/app.js" defer></script>
+<script src="assets/js/mascot.js" defer></script>
 </body>
 </html>

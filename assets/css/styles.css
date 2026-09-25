@@ -101,20 +101,38 @@ button,a,summary,label[for]{touch-action:manipulation;}
   .js .stage--room .room-copy{padding-top:0;}
 }
 
-/* ---------- arch frames ---------- */
-.arch-frame{position:relative; overflow:hidden; isolation:isolate; border-radius:999px 999px 0 0; background:var(--mint);}
-.arch-frame img{position:absolute; left:0; top:-8%; width:100%; height:116%; object-fit:cover; will-change:transform;}
+/* ---------- full-bleed photo sections ---------- */
+.photo-bg{
+  position:relative; isolation:isolate; overflow:hidden;
+  min-height:clamp(600px, 84svh, 820px);
+  display:flex; align-items:center;
+  padding-block:clamp(64px,10vw,130px);
+}
+.photo-bg-img{position:absolute; inset:-4%; width:108%; height:108%; object-fit:cover; z-index:0; will-change:transform;}
+.photo-bg .wrap{position:relative; z-index:1; width:100%;}
+.photo-panel{
+  background:rgba(244,246,245,.88);
+  -webkit-backdrop-filter:blur(22px) saturate(1.15);
+  backdrop-filter:blur(22px) saturate(1.15);
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:24px;
+  padding:clamp(28px,4vw,52px);
+  max-width:36rem;
+  box-shadow:0 44px 90px -38px rgba(20,35,58,.5), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.photo-panel--right{margin-left:auto;}
+@media (max-width:640px){
+  .photo-bg{min-height:auto; padding-block:96px 64px;}
+  .photo-panel{max-width:none;}
+}
 
 /* ---------- first visit ---------- */
-.visit-grid{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(40px,7vw,110px); align-items:start;}
-.visit-grid .arch-frame{aspect-ratio:4/5;}
 .steps{list-style:none; margin:2.6rem 0 0; padding:0; counter-reset:step;}
 .steps li{display:grid; grid-template-columns:3.4rem 1fr; gap:1rem; padding-block:1.5rem; border-top:1px solid var(--line);}
 .steps li:last-child{border-bottom:1px solid var(--line);}
 .steps li::before{counter-increment:step; content:counter(step); content:counter(step) / ""; font-family:var(--font-display); font-size:2.2rem; line-height:1; color:var(--rose);}
 .steps h3{font-family:var(--font-body); font-weight:800; font-size:1.25rem; line-height:1.3;}
 .steps p{margin-top:.35rem; color:var(--graphite); max-width:52ch;}
-@media (max-width:899px){ .visit-grid{grid-template-columns:1fr;} .visit-grid .arch-frame{max-width:420px;} }
 
 /* ---------- prices ---------- */
 .prices-head{max-width:46rem;}
@@ -138,16 +156,12 @@ button,a,summary,label[for]{touch-action:manipulation;}
 }
 
 /* ---------- opinions ---------- */
-.voices-grid{display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:clamp(40px,7vw,110px); align-items:center;}
-.voices-grid .arch-frame{aspect-ratio:5/6;}
-.voices-grid .arch-frame img{object-position:62% 40%;}
 .quote-main{margin:0;}
 .quote-main blockquote{margin:0; font-family:var(--font-display); font-size:clamp(1.7rem,3.4vw,2.9rem); line-height:1.16; text-wrap:balance;}
 .quote-main figcaption,.quote-small figcaption{margin-top:1.1rem; color:var(--graphite); font-size:1rem;}
 .quote-list{display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,4vw,48px); margin-top:3rem;}
 .quote-small{margin:0; padding-top:1.2rem; border-top:1px solid rgba(20,35,58,.3);}
 .quote-small blockquote{margin:0; font-size:1.125rem; line-height:1.5;}
-@media (max-width:899px){ .voices-grid{grid-template-columns:1fr;} .voices-grid .arch-frame{max-width:420px;} }
 @media (max-width:560px){ .quote-list{grid-template-columns:1fr;} }
 
 /* ---------- questions ---------- */
@@ -246,10 +260,24 @@ button,a,summary,label[for]{touch-action:manipulation;}
   .menu .btn{margin-top:1.1rem; width:100%;}
 }
 
+/* ---------- mascot: a tooth that follows scroll, dodging content ---------- */
+.mascot{
+  position:fixed; top:0; left:0; width:64px; height:70px; margin:-35px 0 0 -32px;
+  z-index:60; pointer-events:none; opacity:0; will-change:transform, opacity;
+  transition:opacity 220ms var(--ease-out);
+}
+.mascot svg{width:100%; height:100%; display:block; overflow:visible;}
+.mascot-eye{transform-origin:center; transform-box:fill-box; transition:transform 90ms ease;}
+.mouth-happy{display:none;}
+.mascot[data-mood="happy"] .mouth-happy{display:block;}
+.mascot[data-mood="happy"] .mouth-neutral{display:none;}
+.mascot[data-mood="happy"] .mascot-cheek{opacity:.5;}
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;}
   .btn,.modal-close,.js .menu,.js .menu-toggle,.faq summary::after{transition-duration:.01ms;}
   .btn:active,.modal-close:active,.js .menu-toggle:active{transform:none;}
   .field-error{animation:none;}
   .legal-modal,.legal-modal[open]{transform:none; transition-duration:120ms;}
+  .mascot{display:none;}
 }
