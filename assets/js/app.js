@@ -61,7 +61,7 @@
 
   var rules = {
     name: { msg: 'Escribe tu nombre y apellidos.', ok: function (f) { return f.value.trim().length >= 3; } },
-    phone: { msg: 'Escribe un teléfono de 9 cifras, por ejemplo 600 000 000.', ok: function (f) { return /^\+?[0-9 ]+$/.test(f.value.trim()) && f.value.replace(/\D/g, '').length >= 9; } },
+    phone: { msg: 'Escribe un teléfono de 9 cifras, por ejemplo 600 000 000.', ok: function (f) { return /^[0-9+()\-.\s]+$/.test(f.value.trim()) && f.value.replace(/\D/g, '').length >= 9; } },
     service: { msg: 'Elige el tratamiento que te interesa.', ok: function (f) { return !!f.value; } },
     email: { msg: 'Revisa el correo: tiene que ser como nombre@ejemplo.es.', ok: function (f) { return !f.value.trim() || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value.trim()); } },
     consent: { msg: 'Marca la casilla para que podamos contactarte.', ok: function (f) { return f.checked; } }
